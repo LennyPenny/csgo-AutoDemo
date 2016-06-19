@@ -38,7 +38,7 @@ namespace csgo_AutoDemo
 
         private void Record()
         {
-            var demosubdir = $"{DateTime.Now.ToString("yyy")}_{DateTime.Now.ToString("M(MMM)")}";
+            var demosubdir = $"{DateTime.Now.ToString("yyy")}_{DateTime.Now.ToString("M_MMM")}";
             Directory.CreateDirectory(csgopath + $@"\csgo\autodemo\{demosubdir}");
 
             var demoname = $"autodemo/{demosubdir}/{DateTime.Now.ToString("d_dddd__H_m_s")}";
