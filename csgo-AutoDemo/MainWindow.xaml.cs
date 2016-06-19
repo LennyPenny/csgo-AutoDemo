@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -29,23 +30,53 @@ namespace csgo_AutoDemo
 
         private GameStateListener gsl;
 
+        private static readonly string csgopath =
+                (string)
+                    Registry.GetValue(
+                        @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 730",
+                        "InstallLocation", "");
+
+        private void Record()
+        {
+            var demosubdir = $"{DateTime.Now.ToString("yyy")}_{DateTime.Now.ToString("M(MMM)")}";
+            Directory.CreateDirectory(csgopath + $@"\csgo\autodemo\{demosubdir}");
+
+            var demoname = $"autodemo/{demosubdir}/{DateTime.Now.ToString("d_dddd__H_m_s")}";
+
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.CreateNoWindow = true;
+            psi.WindowStyle = ProcessWindowStyle.Hidden;
+            psi.FileName = "SourceCmd";
+            psi.Arguments = $"csgo.exe \"record \\\"{demoname}\\\"";
+            Process.Start(psi);
+            Log(psi.Arguments);
+            Log($"Recording to {demoname}...");
+        }
+
+        private bool firststate = true;
         private void OnNewGameState(GameState gs)
         {
+            if (firststate == true)
+            {
+                if (gs.Player.Activity == PlayerActivity.Playing)
+                    Record();
+
+                firststate = false;
+                return;
+            }
+
             if (gs.Player.Activity == PlayerActivity.Playing && gs.Previously.Player.Activity == PlayerActivity.Menu)
             {
                 Log("Started playing");
+
+                Record();
+
             }
             else if (gs.Player.Activity == PlayerActivity.Menu && gs.Previously.Player.Activity == PlayerActivity.Playing)
             {
                 Log("Stopped playing");
             }
         }
-
-        private static readonly string csgopath =
-                (string)
-                    Registry.GetValue(
-                        @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 730",
-                        "InstallLocation", "");
 
         private void PlaceGSLConfig()
         {
@@ -91,6 +122,23 @@ namespace csgo_AutoDemo
                 Environment.Exit(0);
             };
 
+            System.Windows.Forms.NotifyIcon ni = new System.Windows.Forms.NotifyIcon();
+            ni.Icon = new System.Drawing.Icon("csgo-AutoDemo.ico");
+            ni.Visible = true;
+            ni.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    this.Show();
+                    this.WindowState = WindowState.Normal;
+                };
+        }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == System.Windows.WindowState.Minimized)
+                this.Hide();
+
+            base.OnStateChanged(e);
         }
 
         private void Log(string msg)
