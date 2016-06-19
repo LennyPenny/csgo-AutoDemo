@@ -36,6 +36,16 @@ namespace csgo_AutoDemo
                         @"HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\Steam App 730",
                         "InstallLocation", "");
 
+        private static void RunCmd(string cmd, string args = "")
+        {
+            ProcessStartInfo psi = new ProcessStartInfo();
+            psi.CreateNoWindow = true;
+            psi.WindowStyle = ProcessWindowStyle.Hidden;
+            psi.FileName = "SourceCmd";
+            psi.Arguments = $"csgo.exe \"{cmd} {args} \"";
+            Process.Start(psi);
+        }
+
         private void Record()
         {
             var demosubdir = $"{DateTime.Now.ToString("yyy")}_{DateTime.Now.ToString("M_MMM")}";
@@ -43,13 +53,8 @@ namespace csgo_AutoDemo
 
             var demoname = $"autodemo/{demosubdir}/{DateTime.Now.ToString("d_dddd__H_m_s")}";
 
-            ProcessStartInfo psi = new ProcessStartInfo();
-            psi.CreateNoWindow = true;
-            psi.WindowStyle = ProcessWindowStyle.Hidden;
-            psi.FileName = "SourceCmd";
-            psi.Arguments = $"csgo.exe \"record \\\"{demoname}\\\"";
-            Process.Start(psi);
-            Log(psi.Arguments);
+            RunCmd("record", $"\\\"{demoname}\\\"");
+
             Log($"Recording to {demoname}...");
         }
 
@@ -166,6 +171,33 @@ namespace csgo_AutoDemo
                 Log("Started listening");
             }
             enabled = !enabled;
+        }
+
+        private void Record_Button_Click(object sender, RoutedEventArgs e)
+        {
+            RunCmd("stop");
+            Record();
+        }
+
+        private static readonly RegistryKey StartUpKey = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true);
+        private void StartWithWindows_checkBox_Checked(object sender, RoutedEventArgs e)
+        {
+            StartUpKey.SetValue(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name, System.Reflection.Assembly.GetExecutingAssembly().Location);
+
+            Log("Starting with windowsing from now on");
+        }
+
+        private void StartWithWindows_checkBox_UnChecked(object sender, RoutedEventArgs e)
+        {
+            StartUpKey.DeleteValue(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name);
+
+            Log("Not starting with windowsing from now on");
+        }
+
+        private void StartWithWindows_checkBox_Initialized(object sender, EventArgs e)
+        {
+            if (StartUpKey.GetValue(System.Reflection.Assembly.GetExecutingAssembly().GetName().Name) != null)
+                StartWithWindows_checkBox.IsChecked = true;
         }
     }
 }
