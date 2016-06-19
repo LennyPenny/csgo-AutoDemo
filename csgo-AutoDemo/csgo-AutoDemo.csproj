@@ -34,6 +34,13 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>csgo-AutoDemo.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <StartupObject>csgo_AutoDemo.App</StartupObject>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSGSI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\CSGSI.1.1.6\lib\CSGSI.dll</HintPath>
