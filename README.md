@@ -1,6 +1,8 @@
 # CS:GO AutoDemo
 This tool will automatically record POV demos for you when you are ingame. 
 
+Downhere it [here](https://github.com/LennyPenny/csgo-AutoDemo/releases)!
+
 It will save your demos to your `Steam\steamapps\common\Counter-Strike Global Offensive\csgo\autodemo` Directory.
 
 ![http://i.imgur.com/IsVMZBG.png](http://i.imgur.com/IsVMZBG.png)
