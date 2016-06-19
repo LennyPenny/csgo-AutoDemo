@@ -5,11 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:csgo_AutoDemo"
         mc:Ignorable="d"
-        Title="CS:GO AutoDemo" Height="500" Width="350" Icon="pack://siteoforigin:,,,/csgo-AutoDemo.ico">
+        Title="CS:GO AutoDemo" Height="279" Width="350" Icon="pack://siteoforigin:,,,/csgo-AutoDemo.ico">
     <Grid Margin="5,10,5,5">
         <Button x:Name="Enabler" Content="Disable&#xD;&#xA;auto-record" VerticalAlignment="Bottom" Click="button_Click" Height="45" HorizontalAlignment="Right" Width="100"/>
-        <TextBox x:Name="DebugOutput" Height="150" Margin="0,249,0,0" TextWrapping="Wrap" Text="Starting up..." VerticalAlignment="Top" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible"/>
+        <TextBox x:Name="DebugOutput" Height="150" Margin="0,26,0,0" TextWrapping="Wrap" Text="Starting up..." VerticalAlignment="Top" IsReadOnly="True" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Visible"/>
         <Button x:Name="Record_Button" Content="Record" HorizontalAlignment="Left" Width="218" HorizontalContentAlignment="Center" Click="Record_Button_Click" VerticalAlignment="Bottom" Height="45"/>
-        <CheckBox x:Name="StartWithWindows_checkBox" Content="Start with Windows&#xD;&#xA;" HorizontalAlignment="Left" Margin="0,229,0,0" VerticalAlignment="Top" Checked="StartWithWindows_checkBox_Checked" Unchecked="StartWithWindows_checkBox_UnChecked" Initialized="StartWithWindows_checkBox_Initialized"/>
+        <CheckBox x:Name="StartWithWindows_checkBox" Content="Start with Windows&#xD;&#xA;" HorizontalAlignment="Left" VerticalAlignment="Top" Checked="StartWithWindows_checkBox_Checked" Unchecked="StartWithWindows_checkBox_UnChecked" Initialized="StartWithWindows_checkBox_Initialized" Height="26"/>
     </Grid>
 </Window>

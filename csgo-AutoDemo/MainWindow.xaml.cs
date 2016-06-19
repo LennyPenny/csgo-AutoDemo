@@ -160,14 +160,14 @@ namespace csgo_AutoDemo
             if (enabled)
             {
                 gsl.NewGameState -= OnNewGameState;
-                Enabler.Content = "Enable";
+                Enabler.Content = Enabler.Content.ToString().Replace("Disable", "Enable");
 
                 Log("Stopped listening");
             }
             else
             {
                 gsl.NewGameState += OnNewGameState;
-                Enabler.Content = "Disable";
+                Enabler.Content = Enabler.Content.ToString().Replace("Enable", "Disable");
                 Log("Started listening");
             }
             enabled = !enabled;
